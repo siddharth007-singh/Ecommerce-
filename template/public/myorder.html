@@ -1,0 +1,48 @@
+{% extends 'public/base.html' %}
+
+{% block menu_navbar %}{% endblock %}
+
+{% block side %}{% endblock %}
+
+
+{%block cart_title%}
+    <h2 class="text-bolder">My Order ..</h2>
+{%endblock%}
+
+
+{% block content %}
+    <div class="design" style="margin-top:-80px">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                {% for o in order %}
+                    <div class="card mt-3">
+                        <div class="card-header">Order ID : {{o.ref_code}}</div>
+                        <div class="card-body">
+                            {% for order_item in o.items.all %}
+                                <div class="media mt-2">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <img src="{{order_item.item.image.url}}" alt="" class="mr-3" style="width:200px; height:180px">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="media-body">
+                                                <h5 class="bold">{{order_item.item.title}}</h5>
+                                                <h5 class="text-muted small">{{order_item.item.category.title}}</h5>
+                                                <h5 class="small text-danger"><del>{{order_item.total_price}}</del></h5>
+                                                <h5 class="small text-success">Rs{{order_item.total_discount_price}}</h5>
+                                                <span>{{order_item.qty}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

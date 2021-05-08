@@ -1,0 +1,48 @@
+{% extends 'public/base.html'  %}
+
+{% block menu_navbar %}{% endblock %}
+
+{% block side %}{% endblock %}
+
+{% block pro_cart_des %}{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="lead">Select your Address</h2>
+                        <form action="{% url 'makepayment' %}" method="post">
+                            {% csrf_token %}
+                            <select name="address" id="" class="form-control">
+                                <option value="">Select Your Address</option>
+                                {% for a in address %}
+                                    <option value={{a.address_id}}>{{a.name}} - {{a.locality}} - {{a.state}}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success" value="Make Payment">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mt-4">
+                    <div class="card-header">Filled Address Details</div>
+                    <div class="card-body">
+                        <form action="{% url 'checkout' %}" method="POST">
+                            {% csrf_token %}
+                            {{ addressform|crispy }}
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-success btn-block">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+{% endblock %}

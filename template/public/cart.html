@@ -1,0 +1,57 @@
+{% extends 'public/base.html' %}
+
+{% block menu_navbar %}{% endblock %}
+
+{% block side %}{% endblock %}
+
+
+{%block cart_title%}
+    <h2 class="text-bolder mb-2">Add To Cart ..</h2>
+{%endblock%}
+
+
+{% block content %}
+    <div class="design" style="margin-top:-80px">
+        <div class="row">
+            <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            {% for order_item in order.items.all %}
+                                <div class="media mt-2">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <img src="{{order_item.item.image.url}}" alt="" class="mr-3" style="width:200px; height:180px">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="media-body">
+                                                <h5 class="bold">{{order_item.item.title}}</h5>
+                                                <h5 class="text-muted small">{{order_item.item.category.title}}</h5>
+                                                <h5 class="small text-danger"><del>{{order_item.total_price}}</del></h5>
+                                                <h5 class="small text-success">Rs{{order_item.total_discount_price}}</h5>
+                                                <a href="{% url 'add-to-cart' order_item.item_id  %}" class="btn btn-success btn-sm px-4">+</a>
+                                                <span>{{order_item.qty}}</span>
+                                                 <a href="{% url 'remove-from-cart' order_item.item_id %}" class="btn btn-danger btn-sm px-4">-</a>
+                                                <a href="{% url 'cart-item-remove' order_item.item_id %}" class="btn btn-danger" style="margin-left:200px">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+            </div>
+            <div class="col-lg-4">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-action bg-success text-white">Price Details</li>
+                    <li class="list-group-item list-group-item-action">Total Amount <span class="float-right">Rs. {{order.get_actual_total_amount}}</span></li>
+                    <li class="list-group-item list-group-item-action">Total Disount <span class="float-right">Rs. {{order.get_total_saving}}</span></li>
+                    <li class="list-group-item list-group-item-action">Total Payable Amount <span class="float-right">Rs. {{order.get_total_amount}}</span></li>
+                </ul>
+                <a href="{% url 'checkout'  %}" class=" btn btn-info mt-2 text-white" style="padding :10px 200px">Checkout</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ecommerce Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+</head>
+
+<body>
+    {% load cart_template_count %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info rounded-0 border border-0">
+        <div class="container nav_content">
+          <a class="navbar-brand" href="{% url 'home' %}"> Demo Ecommerce</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="d-flex me-2" action="{% url 'search' %}" method="get">
+              <input class="form-control rounded-0" type="search" placeholder="Search for product" aria-label="Search" size="50" name="search">
+              <button class="btn btn-dark text-white rounded-0" type="submit">Go</button>
+            </form>
+
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'home'  %}" class="text-white" style="text-decoration:none">Home</a>
+                        </li>
+                    </div>
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'wishlist'  %}" class="text-white" style="text-decoration:none">Wishlist</a>
+                        </li>
+                    </div>
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'myorder'  %}" class="text-white" style="text-decoration:none">My Order</a>
+                        </li>
+                    </div>
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'cart' %}" class="text-white" style="text-decoration:none;"><i class="fa fa-cart-plus" aria-hidden="true"></i>Cart <sup><span class="badge bg-danger" style="border-radius:15px">{{ request.user|cart_item_count }}</span></sup></a>
+                        </li>
+                    </div>
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'account_logout' %}" class="text-white btn btn-outline-danger btn-sm">Logout</a>
+                        </li>
+                    </div>
+                {% else %}
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'home'  %}" class="text-white" style="text-decoration:none">Home</a>
+                        </li>
+                    </div>
+                     <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'account_signup' %}" class="text-white" style="text-decoration:none">Account</a>
+                        </li>
+                    </div>
+                    <div class="navbar-box">
+                        <li class="nav-item me-5">
+                            <a href="{% url 'account_login' %}" class="btn btn-outline-info text-white">SignIn</a>
+                        </li>
+                    </div>
+                {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    {% block menu_navbar %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon ml-auto"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarContent">
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="d-flex justify-content-center">
+                        <ul class="navbar-nav">
+                            {% for x in cat %}
+                                <div class="navbar-box">
+                                    <li class="nav-item me-5">
+                                        <a href="{% url 'category' x.slug %}" class="nav_menu_des" style="text-decoration:none; color:black">{{x.title}}</a>
+                                    </li>
+                                </div>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </nav>
+    {% endblock %}
+
+     {% block pro_cart_des %}
+          <div class="card rounded-0">
+              <div class="card-body text-white bg-info rounded-0 mt-0 border border-0" style=" padding: 4%; font-style: normal; font-weight: bolder; font-size: 1.75rem;">
+                  {%block cart_title%}{%endblock%}
+              </div>
+          </div>
+    {% endblock %}
+
+    <div class="container-fluid mt-4">
+        <div class="row">
+            {% block side %}
+                <div class="col-lg-3">
+                    <div class="list-group list-group-flush">
+                        <a href="{% url 'home' %}" class="list-group-item small list-group-item-action bg-info text-white">CATEGORY</a>
+                            {% for x in cat %}
+                                <a href="{% url 'category' x.slug %}" class="list-group-item list-group-item-action small">{{x.title}}</a>
+                            {% endfor %}
+                    </div>
+                </div>
+            {% endblock %}
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
+</body>
+</html>

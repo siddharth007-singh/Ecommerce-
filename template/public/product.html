@@ -1,0 +1,71 @@
+{% extends 'public/base.html' %}
+
+{% block pro_cart_des %}{% endblock %}
+
+{% block side %}{% endblock %}
+
+{% block content %}
+    <div class="col-lg-9 mt-3">
+        <div class="card">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="card border-0">
+                        <img src="{{ item.0.image.url }}" alt="" class="card-img-top rounded-0" height="300">
+                    </div>
+                </div>
+                <div class="col-lg-7">
+                    <table class="table">
+                        <tr>
+                            <th>Title : </th>
+                            <td>{{item.0.title}}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Category : </th>
+                            <td>{{ item.0.category.title }}</td>
+                        </tr>
+
+                        <tr>
+                            <th>Brands : </th>
+                            <td>{{ item.0.brand.brand_name }}</td>
+                        </tr>
+                    </table>
+                    <div class="row">
+                        <div class="design">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h3> Rs . {{item.0.discount_price}}</h3>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="col-lg-6">
+                                        <h4>Rs. <del style="color:red">{{item.0.price}}</del></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-style" style="text-align:center;">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'add-to-cart' item.0.item_id  %}" class="btn btn-info btn-block mt-3 text-white px-5 py-2">Add To Cart</a>
+                            <a href="{% url 'buynow' item.0.item_id  %}" class="btn btn-block text-white mt-3 px-5 py-2" style="background-color:orange">Buy Now</a>
+                        {% else %}
+                            <a href="{% url 'account_login'  %}" class="btn btn-block text-white mt-3 px-5 py-2" style="background-color:red">Pl'z Login Frist</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card border-primary border mt-2">
+                        <div class="card-header bg-info">
+                            Description
+                        </div>
+                        <div class="card-body card-text small">
+                            {{ item.0.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
